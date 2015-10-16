@@ -1,0 +1,197 @@
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>BigData Analisis - Taller 03 - Grupo 07</title>
+    
+    <link type="text/css" href="/static/css/jquery-ui-1.10.2.css" rel="stylesheet" />
+    <script type="text/javascript" src="/static/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery-ui-1.10.2.min.js"></script>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Timeline CSS -->
+    <link href="/static/dist/css/timeline.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/static/dist/css/sb-admin-2.css" rel="stylesheet">
+    <!--link href="/static/dist/css/datepicker.css" rel="stylesheet"-->
+    
+    <style>
+  .ui-widget {
+    font-size: 11px;
+  }
+  .dialog-drop-shadow {
+    -moz-box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+  }
+  #tabs.ui-widget-content {
+    border: none;
+  }
+  .ui-tabs .ui-tabs-panel {
+    background-color: #ffffff;
+  }
+  .ui-datepicker-trigger {
+    vertical-align: bottom;
+    margin-bottom: 2px;
+    margin-left: 2px;
+  }
+</style>
+
+<!-- highcharts stuff 
+
+<script type="text/javascript" src="js/highcharts-3.0.1.js"></script>
+-->
+<!-- qTip tooltips -->
+
+<link type="text/css" href="/static/js/jquery.qtip-2.0.1.css" rel="stylesheet" />
+<script type="text/javascript" src="/static/js/jquery.qtip-2.0.1.js"></script>
+
+<!--
+  qTip style overrides:
+   - .ui-tooltip-content, change default font size and line spacing
+-->
+
+<style>
+  .qtip-content {
+    font-size: 10pt;
+    line-height: 1.2
+  }
+</style>
+
+
+<!-- numericjs linear algebra library 
+
+<script type="text/javascript" src="js/numeric-1.2.6.min.js"></script>
+-->
+
+<!-- moment date formatting 
+
+<script type="text/javascript" src="js/moment.min.js"></script>
+-->
+
+<!-- font-awesome SVG fonts for alert_dlg -->
+
+<link type="text/css" href="/static/css/font-awesome.css" rel="stylesheet" />
+
+
+<!-- d3 visualization library 
+
+<script type="text/javascript" src="js/d3.v3.js"></script>
+<script type="text/javascript" src="js/d3.layout.cloud.js"></script>
+-->
+
+<!-- dataTable library 
+
+<link type="text/css" href="css/dataTables-1.9.4.css" rel="stylesheet" />
+
+<link type="text/css" href="css/dataTables_themeroller-1.9.4.css" rel="stylesheet" />
+<script type="text/javascript" src="js/dataTables-1.9.4.js"></script>
+-->
+<style>
+  table.dataTable tr.even.highlight {
+    background-color: #dbe871;
+  }
+  table.dataTable tr.odd.highlight {
+    background-color: #dbe871;
+  }
+
+  .tbl_nowrap { white-space: nowrap; }
+}
+</style>
+
+
+<!-- Javascript source -->
+
+<script type="text/javascript" src="/static/canvas-js/colour.js"></script>
+<script type="text/javascript" src="/static/canvas-js/global-var.js"></script>
+<script type="text/javascript" src="/static/canvas-js/affinity.js"></script>
+<script type="text/javascript" src="/static/canvas-js/draw.js"></script>
+<script type="text/javascript" src="/static/canvas-js/html.js"></script>
+<script type="text/javascript" src="/static/canvas-js/scatterplot.js"></script>
+<script type="text/javascript" src="/static/canvas-js/query.js"></script>
+<script type="text/javascript" src="/static/canvas-js/topic.js"></script>
+<script type="text/javascript" src="/static/canvas-js/zoom_dlg.js"></script>
+</head>    
+<body>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">BigData Analisis - Taller 03</a>
+            </div>
+            <!-- /.navbar-header -->
+            
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                   <form role="form">
+                        <div class="form-group">
+                            <label for="param01">Param01  :</label>
+                            <input type="text" class="form-control" id="param01">
+                        </div>
+                        <button onClick="javascript:load_tweets_on_sentiment_tab();" type="button" class="btn btn-default">Cargar</button>
+                    </form>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+        <div class="ui-widget">
+  <img style="float: left;" src="/static/images/tweet-bird-sm.png"><br>
+  <div style="float: left;">
+    <span style="font-size: 2em">
+        Tweets - Elecciones Bogotá
+    </span><br>
+    <span style="font-size: 1.2em;">
+     Visualización de emociones en los tweets
+    </span>
+  </div>
+  <br style="clear: both;" />
+</div>
+
+<!-- Legend canvas and tweet visualization canvas -->
+
+<div style="white-space: nowrap">
+  <div id="canvas-tab" style="white-space: nowrap; min-width: 930px">
+    <ul>
+      <li id="sentiment-lbl"><a href="#sentiment-tab">Emociones</a></li>
+    </ul>
+    <div id="sentiment-tab">
+<!--  For a canvas element, "width" and "height" define the width and
+      height of the canvas's coordinate system, and style="width; height"
+      defines the width and height of the box holding the canvas; if you
+      use the style, CSS scales the canvas which we DO NOT WANT
+-->
+      <canvas id="tweet-legend" width="90" height="400"></canvas>
+      <canvas id="tweet-canvas" width="800" height="400">
+        <p style="align: center">
+        This application requires IE 9, Firefox 3.6, Chrome 17.0, or Safari 5.0
+        </p>
+      </canvas>
+    </div>
+  </div>
+</div>
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!--script src="/static/dist/js/bootstrap-datepicker.js"></script-->
+    <script src="/static/dist/js/main.js"></script>
+</body>
+</html>
