@@ -65,8 +65,10 @@ function draw_tweets(tweets_array)
   var  h;                               // Canvas height
   var  i;       // Loop counter
   var  pos;       // Tweet position
-  var  w;                               // Canvas width
+  var  w;   
 
+                              // Canvas width
+  tw=tweets_array;
   if ( !( canvas = get_canvas( "tweet-canvas" ) ) ) {
     return;
   }
@@ -81,7 +83,7 @@ function draw_tweets(tweets_array)
 
   ctx = canvas.getContext( "2d" );      // Get context, set fill colour
   ctx.strokeStyle = "rgb( 192, 192, 192 )";
-  console.log(tweets_array.length)
+  
   for( i = 0; i < tweets_array.length; i++ ) {  // For all tweets
     tweetObj= tweets_array[i];
     col = tweet_colour(tweetObj);

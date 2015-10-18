@@ -849,8 +849,7 @@ function rgb2hex( rgb )
   //  rgb:  RGB string to convert
 {
   var  hex = "#";			// Hex result
-
-
+  rgb="rgb(46, 110, 158)";
   rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
 
   hex = hex + ( "0" + parseInt( rgb[ 1 ] ).toString( 16 ) ).slice( -2 );

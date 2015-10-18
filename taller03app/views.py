@@ -18,7 +18,13 @@ def load_sentiment_computed_tweets(request):
 	client = MongoClient('localhost', 27017)
 	tweets_db = client['tweets']
 	computed_tweets= tweets_db.computed_tweets.find({}).sort([('_id', -1)]).limit(count);
-	response = HttpResponse(dumps(computed_tweets))
+	tws=[]
+	for c_t in computed_tweets:
+		tweet = tweets_db.tweets.find_one({'_id': c_t['tweet_id']});
+		c_t['text']= tweet['text']
+ 		c_t['created_at']=tweet['created_at']
+		tws.append(c_t)
+	response = HttpResponse(dumps(tws))
 	response['content_type'] = 'application/json; charset=utf-8'
 	return response
 

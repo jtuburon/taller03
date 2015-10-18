@@ -12,7 +12,7 @@
 
 var  active_tab_ID = 0;			// Active tab (0=sentiment, 1=topic)
 var  ARO = 0;				// (Constant) index for arousal vals
-var  dflt_txt_col;			// Default text colour
+var  dflt_txt_col="rgb(46, 110, 158)";			// Default text colour
 var  MIN_TW = 5;			// Minimum tweets to form a cluster
 var  mouse_x_pos;			// Current mouse X-position
 var  mouse_y_pos;			// Current mouse Y-position

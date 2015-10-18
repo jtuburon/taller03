@@ -22,6 +22,8 @@
 
     <!-- Custom CSS -->
     <link href="/static/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <link href="/static/css/main.css" rel="stylesheet">
     <!--link href="/static/dist/css/datepicker.css" rel="stylesheet"-->
     
     <style>
@@ -73,10 +75,7 @@
 <script type="text/javascript" src="js/numeric-1.2.6.min.js"></script>
 -->
 
-<!-- moment date formatting 
-
-<script type="text/javascript" src="js/moment.min.js"></script>
--->
+<script type="text/javascript" src="/static/js/moment.min.js"></script>
 
 <!-- font-awesome SVG fonts for alert_dlg -->
 
@@ -109,8 +108,6 @@
 </style>
 
 
-<!-- Javascript source -->
-
 <script type="text/javascript" src="/static/canvas-js/colour.js"></script>
 <script type="text/javascript" src="/static/canvas-js/global-var.js"></script>
 <script type="text/javascript" src="/static/canvas-js/affinity.js"></script>
@@ -119,7 +116,9 @@
 <script type="text/javascript" src="/static/canvas-js/scatterplot.js"></script>
 <script type="text/javascript" src="/static/canvas-js/query.js"></script>
 <script type="text/javascript" src="/static/canvas-js/topic.js"></script>
+<script type="text/javascript" src="/static/canvas-js/info_dlg.js"></script>
 <script type="text/javascript" src="/static/canvas-js/zoom_dlg.js"></script>
+
 </head>    
 <body>
     <div id="wrapper">
@@ -136,8 +135,10 @@
                 <div class="sidebar-nav navbar-collapse">
                    <form role="form">
                         <div class="form-group">
-                            <label for="param01">Param01  :</label>
-                            <input type="text" class="form-control" id="param01">
+                            <label for="quantity">Cantidad de Tweets:</label>
+                            <input type="text" class="form-control" id="quantity" value=1000>
+                            
+                          </div>
                         </div>
                         <button onClick="javascript:load_tweets_on_sentiment_tab();" type="button" class="btn btn-default">Cargar</button>
                     </form>

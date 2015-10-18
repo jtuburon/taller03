@@ -283,7 +283,7 @@ function affinity_tooltip( group, ID )
   var  tweet;				// Reference to anchor tweet in tw[]
   var  w;				// Cloud SVG width
 
-
+  console.log("LLLL")
   if ( group == 1 ) {			// Tweet
     tweet = tw[ t_node[ ID ].anchor ];
 

@@ -147,9 +147,9 @@ function draw_query_term( ID, n )
   }
 
   if ( typeof n == "undefined" ) {	// Default to number of tweets?
-    lbl = query_term + " (" + tw.length + ")";
+    lbl = "Total de Tweets: " + tw.length;
   } else {				// Use custom count
-    lbl = query_term + " (" +n + ")";
+    lbl = "Total de Tweets: " +n;
   }
 
   //  First, see if the requested drawing element is the sentiment,
@@ -276,9 +276,8 @@ function draw_tooltip()
       tweet = tw[ tweet_ID[ i ] ];
 
     //  Uses moment.js format() function (http://momentjs.com)
-   
-      msg = msg + moment( new Date( tweet.time ) ).format( "MMM D, h:mma<br>" );
-      msg = msg + "<b>" + tweet.name + "</b>: " + tweet.tip + "<br>";
+      msg = msg + tweet.created_at;
+      msg = msg + "<b>" + tweet.text + "</b>: " + "<br><br>";
     }
 
     //  Tooltip flows bottom in top half of canvas and top in bottom
@@ -544,8 +543,8 @@ function within_tweet()
   w = canvas.width - 50;		// Width, height minus border
   h = canvas.height - 50;
 
-  for( i = 0; i < tw.length; i++ ) {	// For all tweets
 
+  for( i = 0; i < tw.length; i++ ) {	// For all tweets
   //  NOT specifying a canvas ID to tweet_pos() forces it to default
   //  to use the canvas on the currently active tab
 
@@ -553,11 +552,12 @@ function within_tweet()
     pos.x += 25;			// Adjust to account for border
     pos.y += 25;
 
-    if ( canvas_x > pos.x - tw[ i ].rad && canvas_x < pos.x + tw[ i ].rad &&
-         canvas_y > pos.y - tw[ i ].rad && canvas_y < pos.y + tw[ i ].rad ) {
+
+
+    if ( canvas_x > pos.x - tw[ i ].ratio && canvas_x < pos.x + tw[ i ].ratio &&
+         canvas_y > pos.y - tw[ i ].ratio && canvas_y < pos.y + tw[ i ].ratio ) {
       tweet_ID.push( i );
     }
   }
-
   return tweet_ID;
 }					// End routine within_tweet

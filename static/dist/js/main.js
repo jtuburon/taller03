@@ -1,8 +1,9 @@
 function load_tweets_on_sentiment_tab(){
+	qty = $("#quantity").val();
 	$.ajax({
 	    type: "POST",
 	    url: "sentimental_tweets",
-	    data: { last_tweets: 1000},
+	    data: { last_tweets: qty},
 	    dataType: "json",
 	    timeout:  5 * 60 * 1000, // in milliseconds
 	    success: function (tweets_data) {
