@@ -9,8 +9,7 @@
 /*  01-May-12	Christopher G. Healey	Initial implementation		    */
 /*--------------------------------------------------------------------------*/
 
-
-$(document).ready( function() {
+function initGUI(){
   var  q;				// Query string on URL
   var  script;				// Google maps API script
   var  src;				// Google maps API script source URL
@@ -175,4 +174,4 @@ $(document).ready( function() {
   init_tweet();				// Initialize scatterplot  
   draw_legend();			// Draw sentiment tab's legend
   draw_tweet();				// Draw sentiment tab's axes
-} );
+}

@@ -135,10 +135,20 @@
                 <div class="sidebar-nav navbar-collapse">
                    <form role="form">
                         <div class="form-group">
+                            <label for="city">Ciudad:</label>
+                            <select id="city" class="form-control">
+                              <option value="0">Todos</option>
+                              {% for c in cities %}
+                                <option value="{{c.city_id}}">{{c.name}}</option>
+                              {% endfor %}
+                            </select>
+                            <label for="candidate">Candidato:</label>
+                            <select id="candidate" class="form-control" disabled="true">
+                              <option value="0">Todos</option>
+                            </select>
                             <label for="quantity">Cantidad de Tweets:</label>
-                            <input type="text" class="form-control" id="quantity" value=1000>
-                            
-                          </div>
+                              <input type="text" class="form-control" id="quantity" value=1000>
+                            </div>
                         </div>
                         <button onClick="javascript:load_tweets_on_sentiment_tab();" type="button" class="btn btn-default">Cargar</button>
                     </form>
