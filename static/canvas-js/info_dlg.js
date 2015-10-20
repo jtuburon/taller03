@@ -201,8 +201,8 @@ function show_info_dlg( tw_ID )
 
     tweet = tw[ tw_ID[ i ] ];
     
-    txt = "<p><b>" + tweet.text + "</b></p>";
-  
+    txt = "<p><b>" + tweet.user_screen_name + "</b></p>";
+    txt = txt + "<p><b>" + tweet.text + "</b></p>";  
     txt = txt + "<p><i>";
     txt = txt + tweet.created_at;
     txt = txt + "</i></p>";

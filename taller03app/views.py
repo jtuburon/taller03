@@ -39,6 +39,7 @@ def load_sentiment_computed_tweets(request):
 		tweet = tweets_db.tweets.find_one({'_id': c_t['tweet_id']});
 		c_t['text']= tweet['text']
  		c_t['created_at']=tweet['created_at']
+ 		c_t['user_screen_name']=tweet['user']['screen_name']
 		tws.append(c_t)
 	response = HttpResponse(dumps(tws))
 	response['content_type'] = 'application/json; charset=utf-8'
