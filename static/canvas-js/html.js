@@ -93,7 +93,6 @@ function initGUI(){
     activate: function( e, ui ) {
       switch( tab_ID() ) {		// Control display of zoom button
       case 0:				// Tweet canvas
-      case 1:				// Topic canvas
         $("#zoom-btn").show();
         break;
       default:				// All other tabs
@@ -102,12 +101,12 @@ function initGUI(){
       }
 
       resize_canvas();
-      update_zoom_dlg();
     }
   } );
 
   $(window).resize( function() {
     resize_canvas();
+    update_zoom_dlg();
   } );
 
 //  Sentiment tab is active (above) when tabs created, but we still

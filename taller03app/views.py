@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from bson.son import SON
 
 from pymongo import MongoClient 
 
 from bson.json_util import dumps
+from datetime import datetime
 
 # Create your views here.
 
@@ -58,3 +60,72 @@ def list_candidates(request):
 	response = HttpResponse(dumps(candidates_list))
 	response['content_type'] = 'application/json; charset=utf-8'
 	return response
+
+@csrf_exempt
+def load_followers_stats(request):
+	client = MongoClient('localhost', 27017)
+	tweets_db = client['tweets']
+	
+	stats_list = []
+	data= tweets_db.followers_history.aggregate(
+	[
+	 {
+	   "$group":
+	     {
+	       "_id": "$history_id",
+	       "timestamp": {"$min": "$timestamp" },
+	       "stats": { "$addToSet": {"candidate_id": "$candidate_id", "followers_count": "$followers_count"}} 
+	     }
+	 },
+	     {"$sort": SON([("_id", 1)])}
+	]);
+	candidates={}
+	for c in tweets_db.candidates.find():
+		candidates[c['candidate_id']]= c['name']
+
+	print candidates
+	for d in data:
+		obj= {
+			"date": d['timestamp']
+			#history_id": d['_id']
+		}
+		for s in d['stats']:
+			obj[candidates[s['candidate_id']]]=s['followers_count']
+		stats_list.append(obj)
+	print stats_list
+	response = HttpResponse(dumps(stats_list))
+	response['content_type'] = 'application/json; charset=utf-8'
+	return response
+
+
+@csrf_exempt
+def list_followers_stats(request):
+	epoch = datetime.utcfromtimestamp(0)
+	client = MongoClient('localhost', 27017)
+	tweets_db = client['tweets']
+	stats_list = []
+
+	candidates={}
+	for c in tweets_db.candidates.find():
+		candidates[c['candidate_id']]= c['account']
+		stats = tweets_db.followers_history.find({'candidate_id': c['candidate_id']}).sort([('history_id', 1)])#.limit(300)
+		data=[]
+		for s in stats:
+			timestamp= s['timestamp']
+			date_object = datetime.strptime(s['timestamp'], '%Y-%m-%d %H:%M:%S.%f')
+			ms= int((date_object - epoch).total_seconds() * 1)
+			print ms
+			obj_d={
+				"x": ms,
+				"y": s['followers_count']
+			}
+			data.append(obj_d)
+
+		obj={
+			"name": c['account'],
+			"data": data
+		}
+		stats_list.append(obj)
+	response = HttpResponse(dumps(stats_list))
+	response['content_type'] = 'application/json; charset=utf-8'
+	return response	
