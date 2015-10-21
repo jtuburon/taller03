@@ -113,7 +113,7 @@ def list_followers_stats(request):
 		for s in stats:
 			timestamp= s['timestamp']
 			date_object = datetime.strptime(s['timestamp'], '%Y-%m-%d %H:%M:%S.%f')
-			ms= int((date_object - epoch).total_seconds() * 1)
+			ms= int((date_object - epoch).total_seconds() * 1)+ 5* 3600
 			print ms
 			obj_d={
 				"x": ms,

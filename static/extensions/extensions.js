@@ -1,9 +1,8 @@
 var RenderControls = function(args) {
-
 	var $ = jQuery;
 
 	this.initialize = function() {
-
+		console.log(args)
 		this.element = args.element;
 		this.graph = args.graph;
 		this.settings = this.serialize();

@@ -29,6 +29,11 @@ function run_queries(){
 
 
 function draw_folllowers_plot(data){
+	$("#chart").html('');
+	$("#timeline").html('');
+	$("#preview").html('');
+	$("#legend").html('');
+
 	var palette = new Rickshaw.Color.Palette( { scheme: 'classic9' } );
 	for (var i = 0; i < data.length; i++) {
 		data[i].color= palette.color();
@@ -107,7 +112,7 @@ function draw_folllowers_plot(data){
 
 
 	var controls = new RenderControls( {
-		element: document.querySelector('form'),
+		element: document.querySelector('#side_panel'),
 		graph: graph
 	} );
 
