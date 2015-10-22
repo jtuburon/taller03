@@ -1,3 +1,4 @@
+var timeout= 5 * 60 * 1000;
 
 function run_queries(){
 	qty = $("#quantity").val();
@@ -13,7 +14,7 @@ function run_queries(){
 	    	last_tweets: qty
 	    },
 	    dataType: "json",
-	    timeout:  5 * 60 * 1000, // in milliseconds
+	    timeout: timeout, // in milliseconds
 	    success: function (tweets_data) {
 	    	draw_tweets(tweets_data);
 	    },
@@ -21,9 +22,21 @@ function run_queries(){
 	    }
 	});
 
-
-	d3.json("get_followers_stats", function(error, data) {
-		draw_folllowers_plot(data)
+	$.ajax({
+	    type: "POST",
+	    url: "get_followers_stats",
+	    data: { 
+	    	city_id: city_id,
+	    	candidate_id: candidate_id,
+	    	qty: qty
+	    },
+	    dataType: "json",
+	    timeout:  timeout, // in milliseconds
+	    success: function (tweets_data) {
+	    	draw_folllowers_plot(tweets_data)
+	    },
+	    error: function (request, status, err) {
+	    }
 	});
 }
 

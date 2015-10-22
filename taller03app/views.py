@@ -100,15 +100,26 @@ def load_followers_stats(request):
 
 @csrf_exempt
 def list_followers_stats(request):
+	city_id= int(request.POST.get('city_id', '1000'))
+	candidate_id= int(request.POST.get('candidate_id', '1000'))
+	count= int(request.POST.get('last_tweets', '1000'))
+
+	filter_p= {}
+	if not city_id==0:
+		filter_p['city_id']=city_id
+	if not candidate_id==0:
+		filter_p['candidate_id']=candidate_id
+
 	epoch = datetime.utcfromtimestamp(0)
 	client = MongoClient('localhost', 27017)
 	tweets_db = client['tweets']
 	stats_list = []
-
 	candidates={}
-	for c in tweets_db.candidates.find():
+
+	
+	for c in tweets_db.candidates.find(filter_p):
 		candidates[c['candidate_id']]= c['account']
-		stats = tweets_db.followers_history.find({'candidate_id': c['candidate_id']}).sort([('history_id', 1)])#.limit(300)
+		stats = tweets_db.followers_history.find({'candidate_id': c['candidate_id']}).sort([('history_id', 1)])
 		data=[]
 		for s in stats:
 			timestamp= s['timestamp']
