@@ -87,12 +87,6 @@
 <link type="text/css" href="/static/css/font-awesome.css" rel="stylesheet" />
 
 
-<!-- d3 visualization library 
-
-<script type="text/javascript" src="js/d3.v3.js"></script>
-<script type="text/javascript" src="js/d3.layout.cloud.js"></script>
--->
-
 <!-- dataTable library 
 
 <link type="text/css" href="css/dataTables-1.9.4.css" rel="stylesheet" />
@@ -125,7 +119,7 @@
 <script type="text/javascript" src="/static/canvas-js/info_dlg.js"></script>
 <script type="text/javascript" src="/static/canvas-js/zoom_dlg.js"></script>
 
-<script src="/static/extensions/d3.v3.js"></script>
+  <script src="/static/extensions/d3.v3.js"></script>
   <script src="/static/extensions/Rickshaw.js"></script>
   <script src="/static/extensions/Rickshaw.Class.js"></script>
   <script src="/static/extensions/Rickshaw.Compat.ClassList.js"></script>
@@ -155,6 +149,8 @@
   <script src="/static/extensions/Rickshaw.Graph.Axis.Y.js"></script>
   <script src="/static/extensions/extensions.js"></script>
 
+  
+  <script type="text/javascript" src="/static/js/d3.layout.cloud.js"></script>
 
 </head>    
 <body>
@@ -216,6 +212,7 @@
     <ul>
       <li id="sentiment-lbl"><a href="#sentiment-tab">Emociones</a></li>
       <li id="followers-lbl"><a href="#followers-tab">Seguidores</a></li>
+      <li id="tags-lbl"><a href="#tags-tab">Tag Cloud</a></li>
     </ul>
     <div id="sentiment-tab">
 <!--  For a canvas element, "width" and "height" define the width and
@@ -233,73 +230,76 @@
     <div id="followers-tab">
       <div id="content">
 
-  <form id="side_panel">
-    
-    <section><div id="legend"></div></section>
-    <section>
+      <form id="side_panel">
+
+      <section><div id="legend"></div></section>
+      <section>
       <div id="renderer_form" class="toggler">
-        <input type="radio" name="renderer" id="area" value="area" checked>
-        <label for="area">area</label>
-        <input type="radio" name="renderer" id="bar" value="bar">
-        <label for="bar">bar</label>
-        <input type="radio" name="renderer" id="line" value="line">
-        <label for="line">line</label>
-        <input type="radio" name="renderer" id="scatter" value="scatterplot">
-        <label for="scatter">scatter</label>
+      <input type="radio" name="renderer" id="area" value="area" checked>
+      <label for="area">area</label>
+      <input type="radio" name="renderer" id="bar" value="bar">
+      <label for="bar">bar</label>
+      <input type="radio" name="renderer" id="line" value="line">
+      <label for="line">line</label>
+      <input type="radio" name="renderer" id="scatter" value="scatterplot">
+      <label for="scatter">scatter</label>
       </div>
-    </section>
-    <section>
+      </section>
+      <section>
       <div id="offset_form">
-        <label for="stack">
-          <input type="radio" name="offset" id="stack" value="zero" checked>
-          <span>stack</span>
-        </label>
-        <label for="stream">
-          <input type="radio" name="offset" id="stream" value="wiggle">
-          <span>stream</span>
-        </label>
-        <label for="pct">
-          <input type="radio" name="offset" id="pct" value="expand">
-          <span>pct</span>
-        </label>
-        <label for="value">
-          <input type="radio" name="offset" id="value" value="value">
-          <span>value</span>
-        </label>
+      <label for="stack">
+      <input type="radio" name="offset" id="stack" value="zero" checked>
+      <span>stack</span>
+      </label>
+      <label for="stream">
+      <input type="radio" name="offset" id="stream" value="wiggle">
+      <span>stream</span>
+      </label>
+      <label for="pct">
+      <input type="radio" name="offset" id="pct" value="expand">
+      <span>pct</span>
+      </label>
+      <label for="value">
+      <input type="radio" name="offset" id="value" value="value">
+      <span>value</span>
+      </label>
       </div>
       <div id="interpolation_form">
-        <label for="cardinal">
-          <input type="radio" name="interpolation" id="cardinal" value="cardinal" checked>
-          <span>cardinal</span>
-        </label>
-        <label for="linear">
-          <input type="radio" name="interpolation" id="linear" value="linear">
-          <span>linear</span>
-        </label>
-        <label for="step">
-          <input type="radio" name="interpolation" id="step" value="step-after">
-          <span>step</span>
-        </label>
+      <label for="cardinal">
+      <input type="radio" name="interpolation" id="cardinal" value="cardinal" checked>
+      <span>cardinal</span>
+      </label>
+      <label for="linear">
+      <input type="radio" name="interpolation" id="linear" value="linear">
+      <span>linear</span>
+      </label>
+      <label for="step">
+      <input type="radio" name="interpolation" id="step" value="step-after">
+      <span>step</span>
+      </label>
       </div>
-    </section>
-    <section>
+      </section>
+      <section>
       <h6>Smoothing</h6>
       <div id="smoother"></div>
-    </section>
-    <section></section>
-  </form>
+      </section>
+      <section></section>
+      </form>
 
-  <div id="chart_container">
-    <div id="chart"></div>
-    <div id="timeline"></div>
-    <div id="preview"></div>
-  </div>
+      <div id="chart_container">
+        <div id="chart"></div>
+        <div id="timeline"></div>
+        <div id="preview"></div>
+      </div>
 
-</div>
+      </div>
+    </div>
+    <div id="tags-tab">
+      <div id="cloud-div"></div>
     </div>
   </div>
-</div>
-        </div>
+  </div>
+  </div>
         <!-- /#page-wrapper -->
 
     </div>
