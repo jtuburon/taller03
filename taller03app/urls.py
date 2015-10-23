@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^list_candidates$', views.list_candidates, name='list_candidates'),
     url(r'^followers_stats$', views.load_followers_stats, name='load_followers_stats'),
     url(r'^get_followers_stats$', views.list_followers_stats, name='list_followers_stats'),
+    url(r'^get_trending_topics$', views.list_trending_topics_tags, name='list_trending_topics_tags'),
 ]

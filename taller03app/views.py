@@ -125,7 +125,6 @@ def list_followers_stats(request):
 			timestamp= s['timestamp']
 			date_object = datetime.strptime(s['timestamp'], '%Y-%m-%d %H:%M:%S.%f')
 			ms= int((date_object - epoch).total_seconds() * 1)+ 5* 3600
-			print ms
 			obj_d={
 				"x": ms,
 				"y": s['followers_count']
@@ -139,4 +138,27 @@ def list_followers_stats(request):
 		stats_list.append(obj)
 	response = HttpResponse(dumps(stats_list))
 	response['content_type'] = 'application/json; charset=utf-8'
-	return response	
+	return response
+
+@csrf_exempt
+def list_trending_topics_tags(request):
+	city_id= int(request.POST.get('city_id', '0'))
+	candidate_id= int(request.POST.get('candidate_id', '0'))
+	count= int(request.POST.get('qty', '1000'))
+
+	filter_p= {}
+	if not city_id==0:
+		filter_p['city_id']=city_id
+	if not candidate_id==0:
+		filter_p['candidate_id']=candidate_id
+
+	topics_list=[]
+	client = MongoClient('localhost', 27017)
+	tweets_db = client['tweets']
+	topics = tweets_db.trending_topics_tags.find(filter_p).sort([('qty', -1)]).limit(count)
+	for topic in topics:
+		tag ={"text": topic['tag'], "size": 10 + topic['qty']/1000}
+		topics_list.append(tag)
+	response = HttpResponse(dumps(topics_list))
+	response['content_type'] = 'application/json; charset=utf-8'
+	return response
