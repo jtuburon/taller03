@@ -169,7 +169,7 @@ def list_trending_topics_tags(request):
 	topics_list=[]
 	client = MongoClient(MONGO_DB_HOST, MONGO_DB_PORT)
 	tweets_db = client[MONGO_DB_NAME]
-	topics = tweets_db.trending_topics_tags.find(filter_p).sort([('qty', -1)]).limit(count)
+	topics = tweets_db.trending_topics.find(filter_p).sort([('qty', -1)]).limit(count)
 	for topic in topics:
 		tag ={"text": topic['tag'], "size": 10 + topic['qty']/1000}
 		topics_list.append(tag)
