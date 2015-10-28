@@ -8,13 +8,27 @@ from pymongo import MongoClient
 from bson.json_util import dumps
 from datetime import datetime
 
+MONGO_DB_USER= "bigdata7"
+MONGO_DB_PASSWD= "bigdata7"
+
+# LOCAL MONGO INSTANCE PARAMS
+MONGO_DB_HOST= "127.0.0.1"
+MONGO_DB_PORT= 27017
+MONGO_DB_NAME= "tweets"
+
+# MONGO's CLUSTER INSTANCE PARAMS
+# MONGO_DB_HOST= "172.24.99.96"
+# MONGO_DB_PORT= 27017
+# MONGO_DB_NAME= "Grupo07"
+
+
 # Create your views here.
 
 def index(request):
 	context= {}
 
-	client = MongoClient('localhost', 27017)
-	tweets_db = client['tweets']
+	client = MongoClient(MONGO_DB_HOST, MONGO_DB_PORT)
+	tweets_db = client[MONGO_DB_NAME]
 	
 	cities= tweets_db.cities.find();
 	cities_list=[]
@@ -33,8 +47,8 @@ def load_sentiment_computed_tweets(request):
 		filter_p['city_id']=city_id
 	if not candidate_id==0:
 		filter_p['candidate_id']=candidate_id
-	client = MongoClient('localhost', 27017)
-	tweets_db = client['tweets']
+	client = MongoClient(MONGO_DB_HOST, MONGO_DB_PORT)
+	tweets_db = client[MONGO_DB_NAME]
 	computed_tweets= tweets_db.computed_tweets.find(filter_p).sort([('_id', -1)]).limit(count);
 	tws=[]
 	for c_t in computed_tweets:
@@ -51,8 +65,8 @@ def load_sentiment_computed_tweets(request):
 @csrf_exempt
 def list_candidates(request):
 	city_id= int(request.POST.get('city_id', '1'))
-	client = MongoClient('localhost', 27017)
-	tweets_db = client['tweets']
+	client = MongoClient(MONGO_DB_HOST, MONGO_DB_PORT)
+	tweets_db = client[MONGO_DB_NAME]
 	candidates= tweets_db.candidates.find({'city_id': city_id})
 	candidates_list=[]
 	for c in candidates:
@@ -63,8 +77,8 @@ def list_candidates(request):
 
 @csrf_exempt
 def load_followers_stats(request):
-	client = MongoClient('localhost', 27017)
-	tweets_db = client['tweets']
+	client = MongoClient(MONGO_DB_HOST, MONGO_DB_PORT)
+	tweets_db = client[MONGO_DB_NAME]
 	
 	stats_list = []
 	data= tweets_db.followers_history.aggregate(
@@ -111,8 +125,8 @@ def list_followers_stats(request):
 		filter_p['candidate_id']=candidate_id
 
 	epoch = datetime.utcfromtimestamp(0)
-	client = MongoClient('localhost', 27017)
-	tweets_db = client['tweets']
+	client = MongoClient(MONGO_DB_HOST, MONGO_DB_PORT)
+	tweets_db = client[MONGO_DB_NAME]
 	stats_list = []
 	candidates={}
 
@@ -153,8 +167,8 @@ def list_trending_topics_tags(request):
 		filter_p['candidate_id']=candidate_id
 
 	topics_list=[]
-	client = MongoClient('localhost', 27017)
-	tweets_db = client['tweets']
+	client = MongoClient(MONGO_DB_HOST, MONGO_DB_PORT)
+	tweets_db = client[MONGO_DB_NAME]
 	topics = tweets_db.trending_topics_tags.find(filter_p).sort([('qty', -1)]).limit(count)
 	for topic in topics:
 		tag ={"text": topic['tag'], "size": 10 + topic['qty']/1000}
