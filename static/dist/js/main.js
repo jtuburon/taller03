@@ -242,6 +242,7 @@ function initMap(){
 
 function draw_tweets_layer(geoData){
 
+	var markers = L.markerClusterGroup();
 	function onEachFeature(feature, layer) {
 		var popupContent = "<span><b>" + feature.user_screen_name+ "</b><br>"
 		popupContent += "<p>" + feature.text+ "</p>"
@@ -249,11 +250,16 @@ function draw_tweets_layer(geoData){
 		layer.bindPopup(popupContent, {maxWidth:800});
 	}
 
-	L.geoJson(geoData, 
-		{
-			onEachFeature: onEachFeature
-		}
-	).addTo(map);
+	var layer = L.geoJson(geoData, 
+	{
+		onEachFeature: onEachFeature
+	});
+
+	markers.addLayer(layer);
+	map.addLayer(markers);
+
+	
+	
 }
 
 $(document).ready( function() {
