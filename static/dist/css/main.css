@@ -1,0 +1,11 @@
+#tweets_map{ 
+	height: 100%; 
+}
+
+.leaflet-map-pane {
+    z-index: 2 !important;
+}
+
+.leaflet-google-layer {
+    z-index: 1 !important;
+}

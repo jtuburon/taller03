@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^followers_stats$', views.load_followers_stats, name='load_followers_stats'),
     url(r'^get_followers_stats$', views.list_followers_stats, name='list_followers_stats'),
     url(r'^get_trending_topics$', views.list_trending_topics_tags, name='list_trending_topics_tags'),
+    url(r'^list_geo_tweets$', views.list_geo_tweets, name='list_geo_tweets'),
 ]

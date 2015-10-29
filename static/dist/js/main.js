@@ -55,6 +55,24 @@ function run_queries(){
 	    error: function (request, status, err) {
 	    }
 	});
+	
+
+	$.ajax({
+	    type: "POST",
+	    url: "list_geo_tweets",
+	    data: { 
+	    	city_id: city_id,
+	    	candidate_id: candidate_id,
+	    	qty: qty
+	    },
+	    dataType: "json",
+	    timeout:  timeout, // in milliseconds
+	    success: function (geoData) {
+			draw_tweets_layer(geoData);
+	    },
+	    error: function (request, status, err) {
+	    }
+	});
 }
 
 function draw_folllowers_plot(data){
@@ -213,8 +231,35 @@ function initTagsCloud(tags_data){
 	}
 }
 
+var map = 0;
+function initMap(){
+	map = L.map('tweets_map').setView([4.60062, -74.12528], 13);
+	var googleLayer = new L.Google('ROADMAP');
+    map.addLayer(googleLayer);    
+}
+
+
+
+function draw_tweets_layer(geoData){
+
+	function onEachFeature(feature, layer) {
+		var popupContent = "<span><b>" + feature.user_screen_name+ "</b><br>"
+		popupContent += "<p>" + feature.text+ "</p>"
+		popupContent += "<b>" + feature.created_at+ "</b></span>"
+		layer.bindPopup(popupContent, {maxWidth:800});
+	}
+
+	L.geoJson(geoData, 
+		{
+			onEachFeature: onEachFeature
+		}
+	).addTo(map);
+}
+
 $(document).ready( function() {
 	initGUI();
+	initMap();
+
 	$( "#city").change(function() {
 		city_id= $( this ).val();
 		$.ajax({

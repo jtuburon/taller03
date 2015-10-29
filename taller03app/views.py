@@ -37,6 +37,7 @@ def index(request):
 	context['cities']= cities_list
 	return render(request, 'taller03app/index.html', context)
 
+
 @csrf_exempt
 def load_sentiment_computed_tweets(request):
 	city_id= int(request.POST.get('city_id', '1000'))
@@ -174,5 +175,34 @@ def list_trending_topics_tags(request):
 		tag ={"text": topic['tag'], "size": 10 + topic['qty']/1000}
 		topics_list.append(tag)
 	response = HttpResponse(dumps(topics_list))
+	response['content_type'] = 'application/json; charset=utf-8'
+	return response
+
+
+@csrf_exempt
+def list_geo_tweets(request):
+	city_id= int(request.POST.get('city_id', '0'))
+	candidate_id= int(request.POST.get('candidate_id', '0'))
+	count= int(request.POST.get('qty', '1000'))
+
+	filter_p= {"coordinates": {"$not":{"$eq": None}}}
+	if not city_id==0:
+		filter_p['city_id']=city_id
+	if not candidate_id==0:
+		filter_p['candidate_id']=candidate_id
+
+	geo_tweets_list=[]
+	client = MongoClient(MONGO_DB_HOST, MONGO_DB_PORT)
+	tweets_db = client[MONGO_DB_NAME]
+	
+	tweets = tweets_db.tweets.find(filter_p)#.limit(1)
+	
+	for t in tweets:
+		g_t= t['coordinates']
+		g_t['text']= t['text']
+ 		g_t['created_at']=t['created_at']
+ 		g_t['user_screen_name']=t['user']['screen_name']
+		geo_tweets_list.append(g_t)
+	response = HttpResponse(dumps(geo_tweets_list))
 	response['content_type'] = 'application/json; charset=utf-8'
 	return response
