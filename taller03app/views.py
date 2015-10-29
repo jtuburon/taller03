@@ -40,9 +40,9 @@ def index(request):
 
 @csrf_exempt
 def load_sentiment_computed_tweets(request):
-	city_id= int(request.POST.get('city_id', '1000'))
-	candidate_id= int(request.POST.get('candidate_id', '1000'))
-	count= int(request.POST.get('last_tweets', '1000'))
+	city_id= int(request.POST.get('city_id', '0'))
+	candidate_id= int(request.POST.get('candidate_id', '0'))
+	count= int(request.POST.get('qty', '1000'))
 	filter_p= {}
 	if not city_id==0:
 		filter_p['city_id']=city_id
@@ -115,10 +115,9 @@ def load_followers_stats(request):
 
 @csrf_exempt
 def list_followers_stats(request):
-	city_id= int(request.POST.get('city_id', '1000'))
-	candidate_id= int(request.POST.get('candidate_id', '1000'))
-	count= int(request.POST.get('last_tweets', '1000'))
-
+	city_id= int(request.POST.get('city_id', '0'))
+	candidate_id= int(request.POST.get('candidate_id', '0'))
+	
 	filter_p= {}
 	if not city_id==0:
 		filter_p['city_id']=city_id
@@ -183,7 +182,7 @@ def list_trending_topics_tags(request):
 def list_geo_tweets(request):
 	city_id= int(request.POST.get('city_id', '0'))
 	candidate_id= int(request.POST.get('candidate_id', '0'))
-	count= int(request.POST.get('qty', '1000'))
+	count= int(request.POST.get('qty', '300'))
 
 	filter_p= {"coordinates": {"$not":{"$eq": None}}}
 	if not city_id==0:

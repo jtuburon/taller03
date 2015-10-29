@@ -11,7 +11,7 @@ function run_queries(){
 	    data: { 
 	    	city_id: city_id,
 	    	candidate_id: candidate_id,
-	    	last_tweets: qty
+	    	qty: qty
 	    },
 	    dataType: "json",
 	    timeout: timeout, // in milliseconds
